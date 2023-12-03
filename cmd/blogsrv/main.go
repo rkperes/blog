@@ -2,46 +2,23 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
-	"net/http"
 
-	htmx "github.com/donseba/go-htmx"
-	"github.com/donseba/go-htmx/middleware"
+	"github.com/rkperes/blog/internal/adapter/htmx"
+	"github.com/rkperes/blog/internal/adapter/httpsrv"
 )
 
 var _port = flag.Int("p", 3000, "port")
-
-type App struct {
-	htmx *htmx.HTMX
-}
 
 func main() {
 	flag.Parse()
 	port := *_port
 
-	// new app with htmx instance
-	app := &App{
-		htmx: htmx.New(),
-	}
+	srv := httpsrv.NewServer()
 
-	mux := http.NewServeMux()
-	// wrap the htmx example middleware around the http handler
-	mux.Handle("/", middleware.MiddleWare(http.HandlerFunc(app.Home)))
+	htmxHandler := htmx.NewHandler()
+	htmxHandler.RegisterRoutes(srv)
 
-	err := http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
+	err := srv.Serve(port)
 	log.Fatal(err)
-}
-
-func (a *App) Home(w http.ResponseWriter, r *http.Request) {
-	// initiate a new htmx handler
-	h := a.htmx.NewHandler(w, r)
-
-	// set the headers for the response, see docs for more options
-	h.PushURL("http://push.url")
-	h.ReTarget("#ReTarged")
-
-	// write the output like you normally do.
-	// check inspector tool in browser to see that the headers are set.
-	_, _ = h.Write([]byte("OK"))
 }
