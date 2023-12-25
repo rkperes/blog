@@ -5,6 +5,8 @@ import (
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/rkperes/blog/components"
 )
 
 func (h *Handler) SearchPokemon(w http.ResponseWriter, r *http.Request) {
@@ -33,6 +35,5 @@ func (h *Handler) SearchPokemon(w http.ResponseWriter, r *http.Request) {
 	var pokemon PokemonResponse
 	_ = json.Unmarshal(body, &pokemon)
 
-	result := `<img src="` + pokemon.Sprites.FrontDefault + `" alt="` + pokemon.Name + `">`
-	_, _ = w.Write([]byte(result))
+	components.Image(pokemon.Sprites.FrontDefault, pokemon.Name).Render(r.Context(), w)
 }
