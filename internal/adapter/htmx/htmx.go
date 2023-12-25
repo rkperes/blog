@@ -38,8 +38,12 @@ func (h *Handler) RegisterRoutes(reg RouteRegister) error {
 func (h *Handler) routes() []httpsrv.Route {
 	routes := []httpsrv.Route{
 		{
-			"/",
-			http.HandlerFunc(h.Home),
+			Path:    "/",
+			Handler: http.HandlerFunc(h.Home),
+		},
+		{
+			Path:    "/search",
+			Handler: http.HandlerFunc(h.SearchPokemon),
 		},
 	}
 

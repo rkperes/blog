@@ -12,5 +12,5 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 
 	// write the output like you normally do.
 	// check inspector tool in browser to see that the headers are set.
-	_, _ = hh.Write([]byte("OK"))
+	http.ServeFile(w, r, "./pages/index.html")
 }
