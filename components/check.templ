@@ -1,0 +1,9 @@
+package components 
+
+templ Check(isAuth bool, user string) {
+	if isAuth {
+		<p>Welcome, { user }</p>
+	} else {
+		<p>Please log in</p>
+	}
+}

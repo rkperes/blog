@@ -21,18 +21,40 @@
 </head>
 
 <body class="bg-gray-200 p-10">
-	<div class="max-w-xl mx-auto">
-		<h1 class="text-3xl mb-5 flex justify-center">
-			<span>Pokedex Search</span>
-		</h1>
-		<div>
-			<input name="pokemon" type="text" hx-post="/search" hx-trigger="keyup delay:500ms"
-				hx-target="#results" hx-indicator=".htmx-indicator" class="p-2 border rounded w-full"
-				placeholder="Search for a Pokemon..." />
-			<div class="my-2 htmx-indicator">Loading...</div>
-			<div id="results" class="flex justify-center"></div>
-		</div>
+	<div class="flex gap-4">
+		<h1>Login</h1>
+
+		<form hx-post="/login">
+			<div>
+				<label>Email</label>
+				<input type="text" name="email" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label>Password</label>
+				<input type="password" name="password" class="form-control" />
+			</div>
+
+			<button class="btn btn-default">Login</button>
+		</form>
+
+		<button class="btn primary" hx-get="/check" hx-target="#check-result" hx-swap="outerHTML">
+			Check
+		</button>
+		<div id="check-result"></div>
 	</div>
+
+	<!-- <div class="max-w-xl mx-auto"> -->
+	<!-- 	<h1 class="text-3xl mb-5 flex justify-center"> -->
+	<!-- 		<span>Pokedex Search</span> -->
+	<!-- 	</h1> -->
+	<!-- 	<div> -->
+	<!-- 		<input name="pokemon" type="text" hx-post="/search" hx-trigger="keyup delay:500ms" hx-target="#results" -->
+	<!-- 			hx-indicator=".htmx-indicator" class="p-2 border rounded w-full" -->
+	<!-- 			placeholder="Search for a Pokemon..." /> -->
+	<!-- 		<div class="my-2 htmx-indicator">Loading...</div> -->
+	<!-- 		<div id="results" class="flex justify-center"></div> -->
+	<!-- 	</div> -->
+	<!-- </div> -->
 </body>
 
 </html>

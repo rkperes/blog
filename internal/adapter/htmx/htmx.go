@@ -45,6 +45,10 @@ func (h *Handler) routes() []httpsrv.Route {
 			Path:    "/search",
 			Handler: http.HandlerFunc(h.SearchPokemon),
 		},
+		{
+			Path:    "/check",
+			Handler: http.HandlerFunc(h.HTMXPageHandler("check.html")),
+		},
 	}
 
 	return h.wrapRoutesWithMiddleware(routes)

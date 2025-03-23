@@ -3,6 +3,9 @@ BINARY_NAME=blogsrv
 
 all: build test
 
+air:
+	air -build.cmd="make build" -build.bin="${BINARY_DIR}/${BINARY_NAME}"
+
 build:
 	templ generate
 	mkdir -p ${BINARY_DIR}
