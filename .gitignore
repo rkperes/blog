@@ -22,3 +22,6 @@ go.work
 
 # Output directory
 bin/*
+
+# macOS
+.DS_Store

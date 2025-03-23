@@ -1,6 +1,8 @@
 module github.com/rkperes/blog
 
-go 1.20
+go 1.23.0
+
+toolchain go1.23.7
 
 require (
 	github.com/donseba/go-htmx v1.1.0
@@ -8,4 +10,4 @@ require (
 	github.com/go-chi/chi/v5 v5.0.10
 )
 
-require github.com/a-h/templ v0.2.501
+require github.com/a-h/templ v0.3.856

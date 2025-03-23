@@ -19,6 +19,7 @@ func main() {
 	htmxHandler := htmx.NewHandler()
 	htmxHandler.RegisterRoutes(srv)
 
+	log.Printf("Serving http://localhost:%d", port)
 	err := srv.Serve(port)
 	log.Fatal(err)
 }
