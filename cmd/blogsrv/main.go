@@ -14,7 +14,7 @@ func main() {
 	flag.Parse()
 	port := *_port
 
-	srv := httpsrv.NewServer()
+	srv := httpsrv.NewServer(httpsrv.ServerParams{})
 
 	htmxHandler := htmx.NewHandler()
 	htmxHandler.RegisterRoutes(srv)

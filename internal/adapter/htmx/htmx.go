@@ -46,8 +46,9 @@ func (h *Handler) routes() []httpsrv.Route {
 			Handler: http.HandlerFunc(h.SearchPokemon),
 		},
 		{
-			Path:    "/check",
-			Handler: http.HandlerFunc(h.HTMXPageHandler("check.html")),
+			Path:         "/check",
+			Handler:      http.HandlerFunc(h.Check),
+			AuthRequired: true,
 		},
 	}
 
