@@ -6,21 +6,24 @@ import (
 	"github.com/donseba/go-htmx"
 	"github.com/donseba/go-htmx/middleware"
 	"github.com/rkperes/blog/internal/adapter/httpsrv"
+	"github.com/rkperes/blog/internal/core/ports"
 )
+
+type addMiddlewareFunc func(next http.Handler) http.Handler
 
 type Handler struct {
 	htmx          *htmx.HTMX
 	addMiddleware addMiddlewareFunc
+	sessionRepo   ports.SessionRepository
 }
 
-type addMiddlewareFunc func(next http.Handler) http.Handler
-
-func NewHandler() *Handler {
+func NewHandler(sessionRepo ports.SessionRepository) *Handler {
 	addMW := middleware.MiddleWare
 
 	return &Handler{
 		htmx:          htmx.New(),
 		addMiddleware: addMW,
+		sessionRepo:   sessionRepo,
 	}
 }
 

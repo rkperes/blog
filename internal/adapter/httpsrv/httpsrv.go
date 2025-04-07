@@ -18,12 +18,12 @@ type Server struct {
 }
 
 type ServerParams struct {
-	sessionRepository ports.SessionRepository
+	SessionRepository ports.SessionRepository
 }
 
 // NewServer creates a new server.
 func NewServer(p ServerParams) *Server {
-	authMw := newAuthMiddleware(p.sessionRepository)
+	authMw := newAuthMiddleware(p.SessionRepository)
 
 	r := chi.NewRouter()
 

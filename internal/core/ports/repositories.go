@@ -1,9 +1,14 @@
 package ports
 
-import "github.com/rkperes/blog/internal/core/domain"
+import (
+	"context"
+
+	"github.com/rkperes/blog/internal/core/domain"
+)
 
 type SessionRepository interface {
-	GetSession(sessionID string) (domain.Session, error)
+	GetSession(ctx context.Context, sessionID string) (domain.Session, error)
+	CreateSession(ctx context.Context, userID string) (domain.Session, error)
 }
 
 type UserRepository interface{}

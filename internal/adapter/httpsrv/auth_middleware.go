@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	authCookie string = "session_token"
+	authCookie = "session_token"
 )
 
 type authMiddleware struct {
@@ -45,7 +45,7 @@ func (am *authMiddleware) handle(next http.Handler) func(w http.ResponseWriter, 
 			return
 		}
 
-		session, err := am.sessionRepository.GetSession(ck.Value)
+		session, err := am.sessionRepository.GetSession(ctx, ck.Value)
 		if err != nil {
 			if errors.Is(err, errs.ErrNotFound) {
 				slog.Warn("session not found", slog.String("sessionID", ck.Value), slog.Any("error", err))

@@ -1,10 +1,12 @@
 package domain
 
+type UUID string
+
 type User struct {
-	ID string
+	ID UUID
 }
 
 type Session struct {
-	ID     string
-	UserID string
+	ID     UUID
+	UserID UUID
 }

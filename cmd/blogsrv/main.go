@@ -6,6 +6,7 @@ import (
 
 	"github.com/rkperes/blog/internal/adapter/htmx"
 	"github.com/rkperes/blog/internal/adapter/httpsrv"
+	"github.com/rkperes/blog/internal/adapter/repository"
 )
 
 var _port = flag.Int("p", 3000, "port")
@@ -14,12 +15,19 @@ func main() {
 	flag.Parse()
 	port := *_port
 
-	srv := httpsrv.NewServer(httpsrv.ServerParams{})
+	repository, err := repository.NewSQLiteRepository()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	htmxHandler := htmx.NewHandler()
+	srv := httpsrv.NewServer(httpsrv.ServerParams{
+		SessionRepository: repository,
+	})
+
+	htmxHandler := htmx.NewHandler(repository)
 	htmxHandler.RegisterRoutes(srv)
 
 	log.Printf("Serving http://localhost:%d", port)
-	err := srv.Serve(port)
+	err = srv.Serve(port)
 	log.Fatal(err)
 }
