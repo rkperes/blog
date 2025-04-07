@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/donseba/go-htmx"
-	"github.com/donseba/go-htmx/middleware"
+	"github.com/rkperes/blog/internal/adapter/httpauth"
 	"github.com/rkperes/blog/internal/adapter/httpsrv"
 	"github.com/rkperes/blog/internal/core/ports"
 )
@@ -12,17 +12,20 @@ import (
 type addMiddlewareFunc func(next http.Handler) http.Handler
 
 type Handler struct {
-	htmx          *htmx.HTMX
-	addMiddleware addMiddlewareFunc
-	sessionRepo   ports.SessionRepository
+	htmx *htmx.HTMX
+
+	addMiddleware func(http.Handler) http.Handler
+
+	auth        *httpauth.HTTPAuth
+	sessionRepo ports.SessionRepository
 }
 
 func NewHandler(sessionRepo ports.SessionRepository) *Handler {
-	addMW := middleware.MiddleWare
-
+	auth := httpauth.New(sessionRepo)
 	return &Handler{
 		htmx:          htmx.New(),
-		addMiddleware: addMW,
+		addMiddleware: auth.MaybeAuth,
+		auth:          auth,
 		sessionRepo:   sessionRepo,
 	}
 }
@@ -49,9 +52,12 @@ func (h *Handler) routes() []httpsrv.Route {
 			Handler: http.HandlerFunc(h.SearchPokemon),
 		},
 		{
-			Path:         "/check",
-			Handler:      http.HandlerFunc(h.Check),
-			AuthRequired: true,
+			Path:    "/login",
+			Handler: http.HandlerFunc(h.Login),
+		},
+		{
+			Path:    "/logout",
+			Handler: http.HandlerFunc(h.Logout),
 		},
 	}
 

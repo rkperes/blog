@@ -18,9 +18,12 @@ func WithSession(ctx context.Context, session domain.Session) context.Context {
 	return context.WithValue(ctx, ctxKeySession, session)
 }
 
-func Session(ctx context.Context) (domain.Session, bool) {
+func Session(ctx context.Context) domain.Session {
 	session, ok := ctx.Value(ctxKeySession).(domain.Session)
-	return session, ok
+	if !ok {
+		return domain.NoSession
+	}
+	return session
 }
 
 func MustSession(ctx context.Context) domain.Session {

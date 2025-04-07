@@ -1,0 +1,33 @@
+package components
+
+import "github.com/rkperes/blog/internal/core/domain"
+
+templ Header(session domain.Session) {
+	<div>
+		<div><p>placeholder</p></div>
+		<div id="login-wrapper">
+			@Login(session)
+		</div>
+	</div>
+}
+
+templ Login(session domain.Session) {
+	<div>
+		if session != domain.NoSession {
+			<p>Welcome, { string(session.UserID) }</p>
+			<button hx-post="/logout" hx-target="closest div">Logout</button>
+		} else {
+			<form hx-post="/login" hx-target="closest div">
+				<div>
+					<label>Email</label>
+					<input type="text" name="email" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<label>Password</label>
+					<input type="password" name="password" class="form-control"/>
+				</div>
+				<button class="btn btn-default">Login</button>
+			</form>
+		}
+	</div>
+}

@@ -10,3 +10,5 @@ type Session struct {
 	ID     UUID
 	UserID UUID
 }
+
+var NoSession = Session{}

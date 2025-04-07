@@ -20,9 +20,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	srv := httpsrv.NewServer(httpsrv.ServerParams{
-		SessionRepository: repository,
-	})
+	srv := httpsrv.NewServer(httpsrv.ServerParams{})
 
 	htmxHandler := htmx.NewHandler(repository)
 	htmxHandler.RegisterRoutes(srv)

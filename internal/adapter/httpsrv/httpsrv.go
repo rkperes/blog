@@ -6,47 +6,35 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/rkperes/blog/internal/core/ports"
 )
 
 // Server is the http server entity.
 // It implements the http serving and multiplexing.
 type Server struct {
 	r chi.Router
-
-	authMw *authMiddleware
 }
 
 type ServerParams struct {
-	SessionRepository ports.SessionRepository
 }
 
 // NewServer creates a new server.
 func NewServer(p ServerParams) *Server {
-	authMw := newAuthMiddleware(p.SessionRepository)
-
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
 
 	return &Server{
-		r:      r,
-		authMw: authMw,
+		r: r,
 	}
 }
 
 type Route struct {
-	Path         string
-	Handler      http.Handler
-	AuthRequired bool
+	Path    string
+	Handler http.Handler
 }
 
 func (s *Server) RegisterRoute(route Route) error {
 	h := route.Handler
-
-	if route.AuthRequired {
-		h = s.authMw.MustAuth(h)
-	}
 
 	s.r.Handle(route.Path, h)
 
